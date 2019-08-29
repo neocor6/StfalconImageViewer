@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.dcendents.android-maven'
+
+
+group = 'com.github.neocor6'
 
 android {
     compileSdkVersion 28
@@ -16,17 +20,17 @@ android {
 publish {
     groupId = 'com.github.stfalcon'
     artifactId = 'stfalcon-imageviewer'
-    publishVersion = '0.1.0'
+    publishVersion = '0.1.2'
     desc = 'A customizable full-screen image viewer with shared image transition support, "pinch to zoom" and "swipe to dismiss" gestures.'
     licences = ['Apache-2.0']
     uploadName='StfalconImageViewer'
-    website = 'https://github.com/stfalcon-studio/StfalconImageViewer'
-    userOrg = 'troy379'
+    website = 'https://github.com/neocor6/StfalconImageViewer'
+    userOrg = 'neocor6'
 }
 
 dependencies {
     api 'androidx.appcompat:appcompat:1.0.2'
-    api 'androidx.transition:transition:1.0.1'
+    api 'androidx.transition:transition:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
@@ -44,4 +48,24 @@ tasks.withType(Javadoc) {
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task classesJar(type: Jar) {
+    from "$buildDir/intermediates/classes/release"
+}
+
+artifacts {
+    archives classesJar
+    archives javadocJar
+    archives sourcesJar
 }
