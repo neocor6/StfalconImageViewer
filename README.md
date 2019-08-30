@@ -34,7 +34,7 @@ allprojects {
 
 And then add the dependency to the **module `build.gradle`** file:
 ```gradle
-implementation 'com.github.stfalcon:stfalcon-imageviewer:latest_version'
+implementation 'com.github.neocor6:StfalconImageViewer:v0.1.3'
 ```
 
 Download via **Maven**:
