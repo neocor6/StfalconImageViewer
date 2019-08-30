@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.github.dcendents.android-maven'
 
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
 
 group = 'com.github.neocor6'
 
@@ -14,6 +20,17 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
     }
 }
 
@@ -35,9 +52,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-repositories {
-    maven { url "https://jitpack.io" }
-}
+
 
 // Avoid Kotlin docs error
 tasks.withType(Javadoc) {
@@ -45,15 +60,19 @@ tasks.withType(Javadoc) {
 }
 
 // Remove javadoc related tasks
+
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 
+
+/*
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.sourceFiles
 }
+
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
@@ -66,6 +85,8 @@ task classesJar(type: Jar) {
 
 artifacts {
     archives classesJar
-    archives javadocJar
+    //archives javadocJar
     archives sourcesJar
 }
+*/
+
